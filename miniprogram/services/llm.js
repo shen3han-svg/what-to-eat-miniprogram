@@ -36,6 +36,7 @@ const _callDeepSeek = (messages, maxTokens = 1500) => {
         temperature: 0.7,
       },
       success(res) {
+        console.log('[DeepSeek] response status:', res.statusCode, 'data:', res.data);
         if (res.statusCode === 200 && res.data && res.data.choices) {
           const content = res.data.choices[0]?.message?.content;
           if (content) {
@@ -48,6 +49,7 @@ const _callDeepSeek = (messages, maxTokens = 1500) => {
         }
       },
       fail(err) {
+        console.error('[DeepSeek] request failed:', err);
         reject(new Error(`网络请求失败: ${err.errMsg || '未知错误'}`));
       },
     });
