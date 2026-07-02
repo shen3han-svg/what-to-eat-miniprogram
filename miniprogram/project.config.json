@@ -31,17 +31,36 @@
     "packNpmRelationList": [],
     "minifyWXSS": true,
     "disableUseStrict": false,
-    "minifyWXML": false
+    "minifyWXML": false,
+    "compileWorklet": false,
+    "localPlugins": false,
+    "useCompilerPlugins": false,
+    "condition": false,
+    "swc": false,
+    "disableSWC": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
   },
   "compileType": "miniprogram",
   "libVersion": "3.4.6",
-  "appid": "wx__YOUR_APPID__",
+  "appid": "wx3f73d24747d132ab",
   "projectname": "what-to-eat-today",
   "condition": {
-    "search": { "list": [] },
-    "conversation": { "list": [] },
-    "game": { "list": [] },
-    "plugin": { "list": [] },
+    "search": {
+      "list": []
+    },
+    "conversation": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "plugin": {
+      "list": []
+    },
     "miniprogram": {
       "current": -1,
       "list": [
@@ -55,5 +74,7 @@
         }
       ]
     }
-  }
+  },
+  "simulatorPluginLibVersion": {},
+  "editorSetting": {}
 }
