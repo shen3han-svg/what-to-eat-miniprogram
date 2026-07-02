@@ -239,6 +239,13 @@
   align-items: center;
   gap: 6rpx;
   border: 2rpx solid transparent;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: scale(1);
+}
+/* 按压缩放 */
+.grid-item-hover {
+  transform: scale(0.92) !important;
+  opacity: 0.85;
 }
 .grid-item-selected {
   background: var(--color-primary) !important;

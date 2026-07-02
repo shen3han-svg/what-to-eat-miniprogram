@@ -135,6 +135,8 @@ Page({
     const name = e.currentTarget.dataset.name;
     const list = this.data.selectedIngredients;
     const idx = list.findIndex((i) => i.name === name);
+    // 触感反馈
+    wx.vibrateShort({ type: 'light' });
     if (idx >= 0) {
       this.setData({ selectedIngredients: list.filter((_, i) => i !== idx) });
     } else {
