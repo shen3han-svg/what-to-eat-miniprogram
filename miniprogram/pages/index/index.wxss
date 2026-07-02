@@ -241,9 +241,7 @@
   border: 2rpx solid transparent;
 }
 .grid-item-selected {
-  background: #07C160 !important;
-  color: #fff !important;
-  border-color: #07C160 !important;
+  color: #07C160 !important;
   font-weight: 600;
 }
 .check-mark { font-size: 20rpx; margin-right: 4rpx; }
