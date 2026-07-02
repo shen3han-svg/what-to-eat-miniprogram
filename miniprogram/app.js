@@ -16,6 +16,13 @@ App({
   },
 
   onLaunch() {
+    // 初始化云开发
+    if (wx.cloud) {
+      wx.cloud.init({
+        env: 'your-env-id', // TODO: 替换为你的云开发环境 ID
+        traceUser: true,
+      });
+    }
     // 静默登录，获取 openid，不强制用户授权
     this._silentLogin();
     // 读取本地偏好

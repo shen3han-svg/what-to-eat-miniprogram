@@ -1,6 +1,25 @@
 // services/llm.js - LLM 推荐服务
-// 所有 LLM 调用都走后端云函数代理，前端不直接持有 API Key
-const { request } = require('../utils/request');
+// 优先通过云函数调用大模型 API，失败时自动降级到本地数据
+
+/**
+ * 调用 LLM 云函数
+ * @param {object} data - 传给云函数的参数
+ * @returns {Promise<{code: number, data: any}>}
+ */
+const _callCloudLLM = async (data) => {
+  const canUseCloud = wx.cloud && typeof wx.cloud.callFunction === 'function';
+  if (!canUseCloud) {
+    throw new Error('云开发未初始化');
+  }
+  const res = await wx.cloud.callFunction({
+    name: 'llm',
+    data,
+  });
+  if (res.result && res.result.code === 0) {
+    return res.result;
+  }
+  throw new Error(res.result?.message || '云函数返回错误');
+};
 
 /**
  * 根据食材列表 + 用户偏好获取菜谱推荐
@@ -10,53 +29,58 @@ const { request } = require('../utils/request');
  * @returns {Promise<Recipe[]>}
  */
 const getRecommendations = async (ingredients, preferences = {}, count = 3) => {
-  const res = await request({
-    url: '/recipes/recommend',
-    method: 'POST',
-    data: {
+  try {
+    const res = await _callCloudLLM({
+      action: 'recommend',
       ingredients,
       preferences,
       count,
-    },
-  });
-  return res.data || [];
+    });
+    return res.data || [];
+  } catch (e) {
+    console.warn('[llm] 推荐云函数失败，使用本地降级', e.message);
+    return getFallbackRecommendations(ingredients);
+  }
 };
 
 /**
  * 换一批推荐（排除已展示的菜名）
  */
 const refreshRecommendations = async (ingredients, preferences, excludeNames = []) => {
-  const res = await request({
-    url: '/recipes/recommend',
-    method: 'POST',
-    data: {
+  try {
+    const res = await _callCloudLLM({
+      action: 'recommend',
       ingredients,
       preferences,
       count: 3,
       exclude: excludeNames,
-    },
-  });
-  return res.data || [];
+    });
+    return res.data || [];
+  } catch (e) {
+    console.warn('[llm] 换一批云函数失败，使用本地降级', e.message);
+    // 第二轮降级：排除已展示的再排序
+    const all = getFallbackRecommendations(ingredients);
+    return all.filter((r) => !excludeNames.includes(r.name)).slice(0, 3);
+  }
 };
 
 /**
- * 获取菜谱详细步骤（LLM 实时生成 / 本地降级）
+ * 获取菜谱详细步骤（优先 LLM 生成，失败降级本地）
  */
 const getRecipeDetail = async (recipeName, ingredients) => {
   try {
-    const res = await request({
-      url: '/recipes/detail',
-      method: 'POST',
-      data: { name: recipeName, ingredients },
+    const res = await _callCloudLLM({
+      action: 'detail',
+      name: recipeName,
+      ingredients,
     });
     return res.data;
   } catch (e) {
-    console.warn('[llm] getRecipeDetail API failed, using fallback', e.message);
+    console.warn('[llm] 详情云函数失败，使用本地降级', e.message);
     const fallback = FALLBACK_RECIPE_STEPS[recipeName];
     if (fallback) {
       return { ...fallback };
     }
-    // 如果不在本地库中，生成一个通用模板
     return generateGenericSteps(recipeName, ingredients);
   }
 };

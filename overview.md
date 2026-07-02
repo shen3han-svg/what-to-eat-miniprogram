@@ -1,37 +1,30 @@
-# 「今天吃什么」微信小程序 — 开发完成概览
+# LLM 菜谱推荐后端接入 - 完成总结
 
-## 完成内容
+## 做了什么
 
-### 项目结构（`miniprogram/`）
-原生微信小程序代码（可直接用开发者工具打开），主包 3 个核心页面 + 公共层。
+为「今天吃什么」小程序接入了 DeepSeek 大模型 API，实现真实的 AI 菜谱推荐。
 
-### 核心文件清单
+### 新增文件
+- `cloudfunctions/llm/index.js` — 云函数核心代码（推荐 + 详情两个 action）
+- `cloudfunctions/llm/package.json` — 云函数依赖配置
+- `cloudfunctions/llm/config.json` — Node18 运行时 + 环境变量声明
+- `LLM-SETUP.md` — 操作指南
 
-| 文件 | 说明 |
-|------|------|
-| `app.js / app.json / app.wxss` | 全局入口、路由配置、设计 Token |
-| `project.config.json` | 开发工具配置（替换 AppID 即可） |
-| `pages/index/` | 食材输入首页：拍照识别 / 语音 / 手动勾选 |
-| `pages/recommend/` | AI 推荐结果页：菜谱卡片 / 换一批 / 加载态 |
-| `pages/cooking/` | 做菜步骤页：Swiper 分步 / 计时器 / 完成反馈 |
-| `pages/onboarding/` | 偏好设置页：时间 / 口味 / 难度 |
-| `utils/request.js` | 统一请求封装（401 自动刷新 token）|
-| `utils/auth.js` | 微信静默登录 |
-| `utils/storage.js` | 本地存储（最近食材、历史记录）|
-| `services/llm.js` | LLM 推荐服务 + 本地降级兜底 |
-| `services/vision.js` | 图像/语音识别服务 |
-| `constants/ingredients.js` | 常用食材预设库（8 大类 60+ 食材）|
+### 修改文件
+- `services/llm.js` — 优先调用云函数，失败自动降级本地菜谱
+- `app.js` — 添加 wx.cloud.init()
+- `app.json` — 添加 "cloud": true
+- `project.config.json` — 添加 cloudfunctionRoot
 
-### 关键设计决策
+### 架构决策
+- 云函数作为 LLM API 代理，前端不直接持有 API Key（安全底线）
+- DeepSeek API（¥1/百万 token，中文好，国内直达）
+- 保留完整本地降级方案：云函数挂了不影响基本使用
+- 推荐和详情共用一个云函数，通过 `action` 参数区分
 
-1. **页面间数据传递**：用 `EventChannel`（不用 URL query），安全且支持任意数据结构
-2. **超时降级**：LLM 失败时自动切换本地规则引擎，不白屏不卡死
-3. **Token 刷新**：并发请求只触发一次 refresh（`_refreshPromise` 防重）
-4. **步骤格式兜底**：`_normalizeSteps()` 处理 LLM 输出格式不一致
+## 待用户完成
+- [ ] 开通微信云开发，获取环境 ID → 填入 `app.js`
+- [ ] 注册 DeepSeek，获取 API Key → 配置到云函数环境变量
+- [ ] 右键 `cloudfunctions/llm` → 上传并部署
 
-### 下一步（需补齐）
-
-- [ ] 后端 API 实现（LLM proxy + 视觉 API）
-- [ ] 替换 AppID、BASE_URL、云开发 env id
-- [ ] 注册合法域名
-- [ ] 历史记录子包页面实现
+详细步骤见 `LLM-SETUP.md`。

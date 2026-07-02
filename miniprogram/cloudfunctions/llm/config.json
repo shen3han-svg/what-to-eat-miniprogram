@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "openapi": []
+  },
+  "env": {
+    "DEEPSEEK_API_KEY": "your-deepseek-api-key-here"
+  },
+  "runtime": "Nodejs18.15"
+}

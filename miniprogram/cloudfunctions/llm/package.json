@@ -1,0 +1,9 @@
+{
+  "name": "llm",
+  "version": "1.0.0",
+  "description": "LLM 菜谱推荐云函数 - 代理 DeepSeek API",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "latest"
+  }
+}

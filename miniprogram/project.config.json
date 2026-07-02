@@ -45,6 +45,7 @@
     }
   },
   "compileType": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/",
   "libVersion": "3.4.6",
   "appid": "wx3f73d24747d132ab",
   "projectname": "what-to-eat-today",
