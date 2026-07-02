@@ -97,7 +97,10 @@
   <view class="manual-panel {{ showManual ? 'panel-show' : '' }}">
     <view class="panel-header flex-between">
       <text class="panel-title">选择食材</text>
-      <text class="panel-close" bindtap="onCloseManual">完成</text>
+      <view class="panel-right">
+        <text wx:if="{{ selectedIngredients.length > 0 }}" class="selected-count">已选 {{ selectedIngredients.length }} 项</text>
+        <text class="panel-close" bindtap="onCloseManual">完成</text>
+      </view>
     </view>
     <!-- 搜索框 -->
     <view class="search-bar">
@@ -118,11 +121,26 @@
                 wx:for-item="subItem"
                 bindtap="onToggleIngredient"
                 data-name="{{ subItem }}">
-            <text>{{ subItem }}</text>
             <text wx:if="{{ isSelected(subItem) }}" class="check-mark">✓</text>
+            <text>{{ subItem }}</text>
           </view>
         </view>
       </view>
     </scroll-view>
+    <!-- 底部已选食材预览 -->
+    <view wx:if="{{ selectedIngredients.length > 0 }}" class="panel-bottom-bar">
+      <scroll-view scroll-x class="bottom-selected-scroll" show-scrollbar="false">
+        <view class="bottom-selected-list">
+          <view class="bottom-tag"
+                wx:for="{{ selectedIngredients }}"
+                wx:key="name"
+                bindtap="onToggleIngredient"
+                data-name="{{ item.name }}">
+            <text>{{ item.name }}</text>
+            <text class="bottom-tag-del">×</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
   </view>
 </view>

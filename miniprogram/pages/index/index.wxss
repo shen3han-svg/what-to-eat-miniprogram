@@ -241,8 +241,51 @@
   border: 2rpx solid transparent;
 }
 .grid-item-selected {
+  background: var(--color-primary) !important;
+  color: #fff !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 4rpx 16rpx rgba(255, 107, 53, 0.35);
+  font-weight: 600;
+}
+.check-mark { font-size: 20rpx; margin-right: 4rpx; }
+
+/* 已选计数 */
+.panel-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+.selected-count {
+  font-size: 24rpx;
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+/* 底部已选预览 */
+.panel-bottom-bar {
+  padding: 16rpx 32rpx;
+  border-top: 1rpx solid var(--color-border);
+  background: var(--color-card);
+}
+.bottom-selected-scroll {
+  white-space: nowrap;
+}
+.bottom-selected-list {
+  display: inline-flex;
+  gap: 12rpx;
+}
+.bottom-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 8rpx 20rpx;
   background: var(--color-primary-light);
   color: var(--color-primary);
-  border-color: var(--color-primary);
+  border-radius: 32rpx;
+  font-size: 24rpx;
+  font-weight: 500;
 }
-.check-mark { font-size: 22rpx; }
+.bottom-tag-del {
+  font-size: 20rpx;
+  opacity: 0.7;
+}
