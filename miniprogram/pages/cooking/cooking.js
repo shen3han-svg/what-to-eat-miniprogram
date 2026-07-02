@@ -172,7 +172,7 @@ Page({
     }
     return raw.map((s, i) => ({
       order: s.order || i + 1,
-      description: s.description || s.text || s.step || String(s),
+      description: s.description || s.desc || s.text || s.step || String(s),
       emoji: s.emoji || '🥘',
       tip: s.tip || '',
       timerSeconds: s.timerSeconds || s.timer || 0,
