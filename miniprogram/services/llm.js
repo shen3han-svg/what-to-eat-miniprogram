@@ -143,6 +143,7 @@ const getRecommendations = async (ingredients, preferences = {}, count = 3) => {
     return await _deepseekRecommend(ingredients, preferences, count, []);
   } catch (e) {
     console.warn('[llm] 推荐 API 失败，使用本地降级', e.message);
+    wx.showToast({ title: 'AI 服务暂时不可用，使用推荐菜谱', icon: 'none', duration: 3000 });
     return getFallbackRecommendations(ingredients);
   }
 };
