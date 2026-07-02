@@ -110,6 +110,21 @@
              bindinput="onSearch"
              confirm-type="search" />
     </view>
+    <!-- 已选食材（置顶） -->
+    <view wx:if="{{ selectedIngredients.length > 0 }}" class="panel-selected-bar">
+      <scroll-view scroll-x class="top-selected-scroll" show-scrollbar="false">
+        <view class="top-selected-list">
+          <view class="top-tag"
+                wx:for="{{ selectedIngredients }}"
+                wx:key="name"
+                bindtap="onToggleIngredient"
+                data-name="{{ item.name }}">
+            <text>{{ item.name }}</text>
+            <text class="top-tag-del">×</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
     <!-- 分类列表 -->
     <scroll-view class="category-scroll" scroll-y>
       <view wx:for="{{ filteredCategories }}" wx:key="name" class="category-section">
@@ -127,20 +142,5 @@
         </view>
       </view>
     </scroll-view>
-    <!-- 底部已选食材预览 -->
-    <view wx:if="{{ selectedIngredients.length > 0 }}" class="panel-bottom-bar">
-      <scroll-view scroll-x class="bottom-selected-scroll" show-scrollbar="false">
-        <view class="bottom-selected-list">
-          <view class="bottom-tag"
-                wx:for="{{ selectedIngredients }}"
-                wx:key="name"
-                bindtap="onToggleIngredient"
-                data-name="{{ item.name }}">
-            <text>{{ item.name }}</text>
-            <text class="bottom-tag-del">×</text>
-          </view>
-        </view>
-      </scroll-view>
-    </view>
   </view>
 </view>
