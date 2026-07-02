@@ -1,7 +1,7 @@
 // services/llm.js - LLM 推荐服务
 // 直接调用 DeepSeek API，失败时自动降级到本地数据
 
-const DEEPSEEK_API_KEY = '__DEEPSEEK_API_KEY_REMOVED__';
+const { DEEPSEEK_API_KEY } = require('./config.secret');
 const DEEPSEEK_BASE_URL = 'https://api.deepseek.com/v1';
 
 /**
