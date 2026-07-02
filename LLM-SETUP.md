@@ -2,7 +2,7 @@
 
 ## 你只需要做一件事：开通云开发并部署云函数
 
-前置条件：已有 DeepSeek API Key（`REDACTED_KEY_PREFIX...`）
+前置条件：已有 DeepSeek API Key（请在 `miniprogram/services/config.secret.js` 中配置）
 
 
 ## 步骤（5 分钟）
@@ -26,7 +26,7 @@ wx.cloud.init({
 
 **方式 A（推荐）：云控制台环境变量**
 - 云开发控制台 → 云函数 → 环境变量
-- 添加键值对：`DEEPSEEK_API_KEY` = `__DEEPSEEK_API_KEY_REMOVED__`
+- 添加键值对：`DEEPSEEK_API_KEY` = `your-deepseek-api-key-here`
 
 **方式 B（快速）：直接改 config.json**
 - 编辑 `cloudfunctions/llm/config.json`，填上 API Key
