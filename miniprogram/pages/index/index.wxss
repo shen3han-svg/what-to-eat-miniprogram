@@ -97,7 +97,7 @@
 }
 .clear-btn {
   font-size: 24rpx;
-  color: var(--color-primary);
+  color: #07C160;
 }
 
 .ingredient-grid {
@@ -110,8 +110,8 @@
   align-items: center;
   gap: 6rpx;
   padding: 12rpx 24rpx;
-  background: #FFF0EB;
-  color: var(--color-primary);
+  background: #E8F5E9;
+  color: #07C160;
   border-radius: 40rpx;
   font-size: 26rpx;
   font-weight: 500;
@@ -127,8 +127,8 @@
 }
 .ingredient-tag.tag-add {
   background: transparent;
-  border: 2rpx dashed var(--color-primary);
-  color: var(--color-primary);
+  border: 2rpx dashed #07C160;
+  color: #07C160;
 }
 .tag-del { color: var(--color-text-hint); margin-left: 4rpx; }
 
@@ -239,19 +239,11 @@
   align-items: center;
   gap: 6rpx;
   border: 2rpx solid transparent;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: scale(1);
-}
-/* 按压缩放 */
-.grid-item-hover {
-  transform: scale(0.92) !important;
-  opacity: 0.85;
 }
 .grid-item-selected {
-  background: var(--color-primary) !important;
+  background: #07C160 !important;
   color: #fff !important;
-  border-color: var(--color-primary) !important;
-  box-shadow: 0 4rpx 16rpx rgba(255, 107, 53, 0.35);
+  border-color: #07C160 !important;
   font-weight: 600;
 }
 .check-mark { font-size: 20rpx; margin-right: 4rpx; }
@@ -264,7 +256,7 @@
 }
 .selected-count {
   font-size: 24rpx;
-  color: var(--color-primary);
+  color: #07C160;
   font-weight: 500;
 }
 
@@ -286,12 +278,11 @@
   align-items: center;
   gap: 6rpx;
   padding: 10rpx 24rpx;
-  background: var(--color-primary);
+  background: #07C160;
   color: #fff;
   border-radius: 32rpx;
   font-size: 24rpx;
   font-weight: 500;
-  box-shadow: 0 4rpx 12rpx rgba(255, 107, 53, 0.3);
 }
 .top-tag-del {
   font-size: 20rpx;

@@ -131,8 +131,6 @@
         <text class="category-name">{{ item.icon }} {{ item.name }}</text>
         <view class="category-grid">
           <view class="grid-item {{ isSelected(subItem) ? 'grid-item-selected' : '' }}"
-                hover-class="grid-item-hover"
-                hover-stay-time="60"
                 wx:for="{{ item.items }}"
                 wx:key="*this"
                 wx:for-item="subItem"
