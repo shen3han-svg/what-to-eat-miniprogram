@@ -1,11 +1,9 @@
 # LLM 接入 - 操作指南
 
-## 你只需要两个东西
+## 你只需要做一件事：开通云开发并部署云函数
 
-| 需要 | 去哪拿 |
-|------|--------|
-| DeepSeek API Key | [platform.deepseek.com](https://platform.deepseek.com) 注册 → API Keys → 创建 |
-| 云开发环境 ID | 微信开发者工具 → 云开发 → 开通 → 环境 ID（类似 `cloud1-xxxxx`） |
+前置条件：已有 DeepSeek API Key（`REDACTED_KEY_PREFIX...`）
+
 
 ## 步骤（5 分钟）
 
@@ -13,17 +11,27 @@
 - 微信开发者工具打开项目
 - 点击工具栏「云开发」图标
 - 创建环境（选基础版即可，免费额度够用）
-- 记下环境 ID
+- 记下环境 ID（类似 `cloud1-xxxxx`）
 
 ### 2. 配置环境 ID
-编辑 `miniprogram/app.js` 第 22 行：
+编辑 `miniprogram/app.js`，把 `your-env-id` 换成你的环境 ID：
 ```js
-env: 'cloud1-xxxxx',  // 替换 your-env-id
+wx.cloud.init({
+  env: 'cloud1-xxxxx',  // ← 改这里
+  traceUser: true,
+});
 ```
 
-### 3. 配置 API Key
+### 3. 配置 API Key（二选一）
+
+**方式 A（推荐）：云控制台环境变量**
 - 云开发控制台 → 云函数 → 环境变量
-- 添加 `DEEPSEEK_API_KEY` = 你的 API Key
+- 添加键值对：`DEEPSEEK_API_KEY` = `__DEEPSEEK_API_KEY_REMOVED__`
+
+**方式 B（快速）：直接改 config.json**
+- 编辑 `cloudfunctions/llm/config.json`，填上 API Key
+- ⚠️ 此方式 API Key 会随代码部署到云函数，不算最安全，但 MVP 够用
+
 
 ### 4. 部署云函数
 - 在开发者工具左侧文件树，右键 `cloudfunctions/llm` 文件夹
@@ -33,8 +41,9 @@ env: 'cloud1-xxxxx',  // 替换 your-env-id
 ### 5. 测试
 - 编译运行小程序
 - 选择食材 → 点击推荐
-- 如果网络正常，应该看到 AI 生成的菜谱（不再是固定的 3 道菜）
-- 如果失败，会自动降级回本地菜谱（不影响正常使用）
+- 看到 AI 生成的菜谱 = 成功
+- 如果失败自动降级本地菜谱，不影响使用
+
 
 ## 架构说明
 
