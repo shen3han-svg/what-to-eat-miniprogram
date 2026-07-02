@@ -1,0 +1,128 @@
+<!-- pages/index/index.wxml - 食材输入首页 -->
+<view class="page">
+  <!-- 顶部标题区 -->
+  <view class="header">
+    <text class="header-title">今天吃什么？</text>
+    <text class="header-sub">告诉我你有什么，我帮你决定</text>
+  </view>
+
+  <!-- 主拍照入口 -->
+  <view class="photo-cta card" bindtap="onTakePhoto">
+    <view class="photo-inner">
+      <text class="photo-icon">📸</text>
+      <text class="photo-label">拍一拍冰箱</text>
+      <text class="photo-hint">AI 自动识别食材</text>
+    </view>
+  </view>
+
+  <!-- 次级输入方式 -->
+  <view class="input-row">
+    <!-- 语音输入 -->
+    <view class="input-btn {{ isRecording ? 'recording' : '' }}"
+          bindtouchstart="onVoiceStart"
+          bindtouchend="onVoiceEnd">
+      <text class="input-btn-icon">🎤</text>
+      <text class="input-btn-label">{{ isRecording ? '松开停止' : '按住说话' }}</text>
+    </view>
+    <!-- 手动勾选 -->
+    <view class="input-btn" bindtap="onOpenManual">
+      <text class="input-btn-icon">✍️</text>
+      <text class="input-btn-label">手动选食材</text>
+    </view>
+  </view>
+
+  <!-- 已选食材展示 -->
+  <view wx:if="{{ selectedIngredients.length > 0 }}" class="selected-section">
+    <view class="section-header flex-between">
+      <text class="section-title">已选食材</text>
+      <text class="clear-btn" bindtap="clearIngredients">清空</text>
+    </view>
+    <view class="ingredient-grid">
+      <view class="ingredient-tag {{ item.fromCamera ? 'tag-camera' : '' }}"
+            wx:for="{{ selectedIngredients }}"
+            wx:key="name"
+            bindtap="removeIngredient"
+            data-name="{{ item.name }}">
+        <text>{{ item.name }}</text>
+        <text class="tag-del">×</text>
+      </view>
+      <!-- 追加更多 -->
+      <view class="ingredient-tag tag-add" bindtap="onOpenManual">
+        <text>+</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷常用食材（最近使用 or 热门） -->
+  <view wx:if="{{ selectedIngredients.length === 0 }}" class="quick-section">
+    <view class="section-header">
+      <text class="section-title">最近用过</text>
+    </view>
+    <view class="ingredient-grid">
+      <view class="ingredient-tag tag-quick"
+            wx:for="{{ recentIngredients }}"
+            wx:key="*this"
+            bindtap="onQuickAdd"
+            data-name="{{ item }}">
+        <text>{{ item }}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 偏好设置快速入口 -->
+  <view class="pref-bar" bindtap="onOpenPreferences">
+    <text class="pref-icon">⚙️</text>
+    <text class="pref-text">
+      {{ prefLabel }}
+    </text>
+    <text class="pref-arrow">›</text>
+  </view>
+
+  <!-- 底部开始按钮 -->
+  <view class="footer safe-bottom">
+    <button class="btn-primary start-btn"
+            disabled="{{ selectedIngredients.length === 0 || loading }}"
+            bindtap="onGetRecommend">
+      <block wx:if="{{ loading }}">
+        <text>正在想你能做什么…</text>
+      </block>
+      <block wx:else>
+        <text>帮我推荐菜谱 →</text>
+      </block>
+    </button>
+  </view>
+
+  <!-- 手动选食材弹窗 -->
+  <view class="mask {{ showManual ? 'mask-show' : '' }}" bindtap="onCloseManual"></view>
+  <view class="manual-panel {{ showManual ? 'panel-show' : '' }}">
+    <view class="panel-header flex-between">
+      <text class="panel-title">选择食材</text>
+      <text class="panel-close" bindtap="onCloseManual">完成</text>
+    </view>
+    <!-- 搜索框 -->
+    <view class="search-bar">
+      <input class="search-input"
+             placeholder="搜索食材"
+             value="{{ searchKeyword }}"
+             bindinput="onSearch"
+             confirm-type="search" />
+    </view>
+    <!-- 分类列表 -->
+    <scroll-view class="category-scroll" scroll-y>
+      <view wx:for="{{ filteredCategories }}" wx:key="name" class="category-section">
+        <text class="category-name">{{ item.icon }} {{ item.name }}</text>
+        <view class="category-grid">
+          <view class="grid-item {{ isSelected(subItem) ? 'grid-item-selected' : '' }}"
+                wx:for="{{ item.items }}"
+                wx:key="*this"
+                wx:for-item="subItem"
+                bindtap="onToggleIngredient"
+                data-name="{{ subItem }}">
+            <text>{{ subItem }}</text>
+            <text wx:if="{{ isSelected(subItem) }}" class="check-mark">✓</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

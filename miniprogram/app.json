@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/recommend/recommend",
+    "pages/cooking/cooking",
+    "pages/onboarding/onboarding"
+  ],
+  "subpackages": [
+    {
+      "root": "subpackages/history",
+      "pages": [
+        "pages/history/history",
+        "pages/feedback/feedback"
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": ["subpackages/history"]
+    }
+  },
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "今天吃什么",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F7F8FA",
+    "enablePullDownRefresh": false
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于推荐附近应季食材"
+    }
+  },
+  "requiredPrivateInfos": [],
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "style": "v2"
+}

@@ -1,0 +1,67 @@
+<!-- pages/recommend/recommend.wxml - 推荐结果页 -->
+<view class="page">
+  <!-- 顶部：已选食材摘要 -->
+  <view class="ingredient-summary">
+    <text class="summary-label">你有：</text>
+    <text class="summary-names">{{ ingredientSummary }}</text>
+  </view>
+
+  <!-- 加载态 -->
+  <view wx:if="{{ loading }}" class="loading-state">
+    <view class="loading-dots">
+      <view class="dot dot1"></view>
+      <view class="dot dot2"></view>
+      <view class="dot dot3"></view>
+    </view>
+    <text class="loading-text">正在帮你想可以做什么…</text>
+  </view>
+
+  <!-- 空态 -->
+  <view wx:elif="{{ recipes.length === 0 && !loading }}" class="empty-state">
+    <text class="empty-icon">🤔</text>
+    <text class="empty-title">这些食材组合有点难</text>
+    <text class="empty-sub">试着再添加 1-2 种食材？</text>
+    <button class="btn-ghost back-btn" bindtap="onBack">← 返回添加</button>
+  </view>
+
+  <!-- 推荐卡片列表 -->
+  <view wx:else class="recipe-list">
+    <view class="recipe-card card"
+          wx:for="{{ recipes }}"
+          wx:key="name"
+          bindtap="onSelectRecipe"
+          data-index="{{ index }}">
+      <!-- 左侧 emoji 封面 -->
+      <view class="recipe-cover">
+        <text class="cover-emoji">{{ item.coverEmoji || '🍽️' }}</text>
+      </view>
+      <!-- 右侧信息 -->
+      <view class="recipe-info">
+        <text class="recipe-name">{{ item.name }}</text>
+        <view class="recipe-meta">
+          <text class="meta-item">⏱ {{ item.minutes > 0 ? item.minutes + '分钟' : '时间待定' }}</text>
+          <text class="meta-item">{{ difficultyLabel(item.difficulty) }}</text>
+        </view>
+        <!-- 食材匹配度 -->
+        <view class="match-row">
+          <view wx:if="{{ item.missingIngredients.length === 0 }}" class="match-badge match-full">
+            <text>🟢 食材全齐</text>
+          </view>
+          <view wx:else class="match-badge match-partial">
+            <text>🟡 缺：{{ item.missingIngredients.join('、') }}</text>
+          </view>
+        </view>
+      </view>
+      <!-- 右侧箭头 -->
+      <text class="card-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view wx:if="{{ !loading && recipes.length > 0 }}" class="bottom-actions safe-bottom">
+    <button class="btn-ghost refresh-btn" bindtap="onRefresh" loading="{{ refreshing }}">
+      {{ refreshing ? '换中…' : '🔄 换一批' }}
+    </button>
+    <button class="btn-ghost add-btn" bindtap="onBack">+ 添加食材</button>
+  </view>
+</view>

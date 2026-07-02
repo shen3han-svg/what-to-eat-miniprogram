@@ -1,0 +1,80 @@
+/* app.wxss - 全局样式变量与基础重置 */
+
+/* ── 设计 Token ── */
+page {
+  --color-primary: #FF6B35;      /* 橙红，食欲感强 */
+  --color-primary-light: #FFF0EB;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-text-hint: #AAAAAA;
+  --color-bg: #F7F8FA;
+  --color-card: #FFFFFF;
+  --color-border: #EEEEEE;
+  --color-success: #07C160;
+  --color-warning: #FA9D3B;
+  --color-error: #EE0A24;
+
+  --radius-sm: 8rpx;
+  --radius-md: 16rpx;
+  --radius-lg: 24rpx;
+  --radius-xl: 32rpx;
+
+  --shadow-card: 0 2rpx 16rpx rgba(0,0,0,0.06);
+
+  --font-title: 36rpx;
+  --font-body: 28rpx;
+  --font-caption: 24rpx;
+
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-size: var(--font-body);
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+  line-height: 1.6;
+}
+
+/* ── 常用工具类 ── */
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-1 { flex: 1; }
+
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-hint { color: var(--color-text-hint); }
+.text-bold { font-weight: 600; }
+
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-xl);
+  font-size: 32rpx;
+  font-weight: 600;
+  text-align: center;
+  padding: 24rpx 0;
+  border: none;
+}
+
+.btn-primary::after { border: none; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2rpx solid var(--color-primary);
+  border-radius: var(--radius-xl);
+  font-size: 28rpx;
+  text-align: center;
+  padding: 20rpx 0;
+}
+
+.btn-ghost::after { border: none; }
+
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }

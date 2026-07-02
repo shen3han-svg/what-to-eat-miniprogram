@@ -1,0 +1,56 @@
+<!-- pages/onboarding/onboarding.wxml - 偏好设置页 -->
+<view class="page">
+  <view class="header">
+    <text class="header-title">{{ mode === 'first' ? '先了解一下你的口味 👋' : '修改偏好' }}</text>
+    <text class="header-sub" wx:if="{{ mode === 'first' }}">设置后推荐会更准，30 秒就好</text>
+  </view>
+
+  <!-- 时间预算 -->
+  <view class="pref-section card">
+    <text class="pref-title">⏱ 最多花多少时间做饭？</text>
+    <view class="options-row">
+      <view class="option-btn {{ prefs.maxMinutes === 0 ? 'selected' : '' }}"
+            bindtap="onSelectTime" data-val="0">不限</view>
+      <view class="option-btn {{ prefs.maxMinutes === 15 ? 'selected' : '' }}"
+            bindtap="onSelectTime" data-val="15">15分钟</view>
+      <view class="option-btn {{ prefs.maxMinutes === 30 ? 'selected' : '' }}"
+            bindtap="onSelectTime" data-val="30">30分钟</view>
+      <view class="option-btn {{ prefs.maxMinutes === 60 ? 'selected' : '' }}"
+            bindtap="onSelectTime" data-val="60">1小时</view>
+    </view>
+  </view>
+
+  <!-- 口味偏好（多选） -->
+  <view class="pref-section card">
+    <text class="pref-title">🌶️ 口味偏好（可多选）</text>
+    <view class="options-row flex-wrap">
+      <view class="option-btn {{ isFlavorSelected(item) ? 'selected' : '' }}"
+            wx:for="{{ flavorOptions }}"
+            wx:key="*this"
+            bindtap="onToggleFlavor"
+            data-flavor="{{ item }}">{{ item }}</view>
+    </view>
+  </view>
+
+  <!-- 难度 -->
+  <view class="pref-section card">
+    <text class="pref-title">👨‍🍳 厨艺水平？</text>
+    <view class="options-row">
+      <view class="option-btn {{ prefs.difficulty === 0 ? 'selected' : '' }}"
+            bindtap="onSelectDifficulty" data-val="0">随便</view>
+      <view class="option-btn {{ prefs.difficulty === 1 ? 'selected' : '' }}"
+            bindtap="onSelectDifficulty" data-val="1">新手</view>
+      <view class="option-btn {{ prefs.difficulty === 2 ? 'selected' : '' }}"
+            bindtap="onSelectDifficulty" data-val="2">熟练</view>
+      <view class="option-btn {{ prefs.difficulty === 3 ? 'selected' : '' }}"
+            bindtap="onSelectDifficulty" data-val="3">大厨</view>
+    </view>
+  </view>
+
+  <view class="footer safe-bottom">
+    <button class="btn-primary save-btn" bindtap="onSave">
+      {{ mode === 'first' ? '设置完成，去选食材 →' : '保存' }}
+    </button>
+    <text wx:if="{{ mode === 'first' }}" class="skip-btn" bindtap="onSkip">跳过，使用默认设置</text>
+  </view>
+</view>

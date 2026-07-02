@@ -1,0 +1,9 @@
+{
+  "description": "关于本项目小程序代码的合法性校验信息",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

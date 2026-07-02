@@ -1,0 +1,101 @@
+<!-- pages/cooking/cooking.wxml - 做菜步骤引导页 -->
+<view class="page">
+  <!-- 顶部菜名 & 进度 -->
+  <view class="cooking-header">
+    <text class="recipe-name">{{ recipe.name }}</text>
+    <view class="progress-bar">
+      <view class="progress-fill" style="width: {{ progressPct }}%"></view>
+    </view>
+    <text class="step-counter">步骤 {{ currentStep + 1 }} / {{ steps.length }}</text>
+  </view>
+
+  <!-- 步骤内容区（支持左右滑动） -->
+  <swiper class="step-swiper"
+          current="{{ currentStep }}"
+          bindchange="onStepChange"
+          duration="300">
+    <swiper-item wx:for="{{ steps }}" wx:key="index">
+      <view class="step-content">
+        <!-- 步骤示意 Emoji（暂用大字 emoji 替代图片） -->
+        <view class="step-visual">
+          <text class="step-emoji">{{ item.emoji || '🥘' }}</text>
+        </view>
+
+        <!-- 步骤文字 -->
+        <view class="step-text-box">
+          <text class="step-number">第 {{ item.order }} 步</text>
+          <text class="step-desc">{{ item.description }}</text>
+
+          <!-- 关键提示（如：小火慢炒，别糊了） -->
+          <view wx:if="{{ item.tip }}" class="step-tip">
+            <text class="tip-icon">💡</text>
+            <text class="tip-text">{{ item.tip }}</text>
+          </view>
+        </view>
+
+        <!-- 计时器（如果步骤有推荐时间） -->
+        <view wx:if="{{ item.timerSeconds > 0 }}" class="timer-row">
+          <view class="timer-btn {{ timerState[index] === 'running' ? 'timer-running' : '' }}"
+                bindtap="onTimer"
+                data-index="{{ index }}"
+                data-seconds="{{ item.timerSeconds }}">
+            <text class="timer-icon">⏰</text>
+            <text class="timer-label">
+              {{ timerState[index] === 'running' ? timerCountdown + 's' : '计时 ' + item.timerSeconds + 's' }}
+            </text>
+          </view>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+
+  <!-- 底部导航 -->
+  <view class="nav-bar safe-bottom">
+    <!-- 语音播报 -->
+    <view class="nav-action" bindtap="onSpeak">
+      <text class="nav-icon">🔊</text>
+      <text class="nav-label">播报</text>
+    </view>
+
+    <!-- 上一步 -->
+    <button class="nav-step-btn btn-ghost"
+            disabled="{{ currentStep === 0 }}"
+            bindtap="onPrevStep">◀ 上一步</button>
+
+    <!-- 下一步 / 完成 -->
+    <button class="nav-step-btn btn-primary"
+            bindtap="onNextStep">
+      {{ currentStep < steps.length - 1 ? '下一步 ▶' : '做完啦 ✅' }}
+    </button>
+
+    <!-- 目录 -->
+    <view class="nav-action" bindtap="onShowSteps">
+      <text class="nav-icon">☰</text>
+      <text class="nav-label">目录</text>
+    </view>
+  </view>
+
+  <!-- 完成弹窗 -->
+  <view class="mask {{ showDone ? 'mask-show' : '' }}"></view>
+  <view class="done-panel {{ showDone ? 'panel-show' : '' }}">
+    <text class="done-emoji">🎉</text>
+    <text class="done-title">{{ recipe.name }}做好啦！</text>
+    <text class="done-sub">味道怎么样？</text>
+    <view class="feedback-row">
+      <view class="feedback-btn" bindtap="onFeedback" data-score="3">
+        <text class="fb-emoji">😋</text>
+        <text class="fb-label">好吃！</text>
+      </view>
+      <view class="feedback-btn" bindtap="onFeedback" data-score="2">
+        <text class="fb-emoji">😐</text>
+        <text class="fb-label">一般</text>
+      </view>
+      <view class="feedback-btn" bindtap="onFeedback" data-score="1">
+        <text class="fb-emoji">😅</text>
+        <text class="fb-label">下次不做了</text>
+      </view>
+    </view>
+    <button class="btn-primary share-btn" open-type="share">分享给朋友</button>
+    <text class="done-back" bindtap="onBackHome">返回首页</text>
+  </view>
+</view>
