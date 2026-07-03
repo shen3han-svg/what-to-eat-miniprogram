@@ -1,0 +1,50 @@
+// utils/helpers.wxs - WXML 中可调用的辅助函数
+// WXS 运行在渲染线程，不能引用 JS，只能用 WXS 自己的语法
+
+/**
+ * 判断食材是否已选中
+ * @param {string} name - 食材名
+ * @param {Array} selectedList - 已选食材列表 [{name, fromCamera}]
+ * @returns {string} 'selected' | ''
+ */
+function isSelected(name, selectedList) {
+  if (!selectedList) return '';
+  for (var i = 0; i < selectedList.length; i++) {
+    if (selectedList[i].name === name) return 'selected';
+  }
+  return '';
+}
+
+/**
+ * 判断口味是否已选中
+ * @param {string} flavor - 口味名
+ * @param {Array} flavorList - 已选口味列表
+ * @returns {string} 'selected' | ''
+ */
+function isFlavorSelected(flavor, flavorList) {
+  if (!flavorList) return '';
+  for (var i = 0; i < flavorList.length; i++) {
+    if (flavorList[i] === flavor) return 'selected';
+  }
+  return '';
+}
+
+/**
+ * 食材选中时显示勾号
+ * @param {string} name - 食材名
+ * @param {Array} selectedList - 已选食材列表
+ * @returns {boolean}
+ */
+function showCheck(name, selectedList) {
+  if (!selectedList) return false;
+  for (var i = 0; i < selectedList.length; i++) {
+    if (selectedList[i].name === name) return true;
+  }
+  return false;
+}
+
+module.exports = {
+  isSelected: isSelected,
+  isFlavorSelected: isFlavorSelected,
+  showCheck: showCheck,
+};

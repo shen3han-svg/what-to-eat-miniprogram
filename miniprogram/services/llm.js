@@ -180,6 +180,15 @@ const FALLBACK_RECIPES = [
   { name: '番茄炒蛋', minutes: 10, difficulty: 1, matchedIngredients: ['番茄', '鸡蛋'], missingIngredients: [], coverEmoji: '🍳' },
   { name: '蒜蓉炒青菜', minutes: 8, difficulty: 1, matchedIngredients: ['青菜', '大蒜'], missingIngredients: [], coverEmoji: '🥬' },
   { name: '煎鸡蛋', minutes: 5, difficulty: 1, matchedIngredients: ['鸡蛋'], missingIngredients: [], coverEmoji: '🍳' },
+  { name: '可乐鸡翅', minutes: 25, difficulty: 2, matchedIngredients: ['鸡翅', '可乐'], missingIngredients: [], coverEmoji: '🍗' },
+  { name: '醋溜土豆丝', minutes: 12, difficulty: 1, matchedIngredients: ['土豆'], missingIngredients: ['醋'], coverEmoji: '🥔' },
+  { name: '蛋炒饭', minutes: 10, difficulty: 1, matchedIngredients: ['米饭', '鸡蛋'], missingIngredients: [], coverEmoji: '🍚' },
+  { name: '红烧豆腐', minutes: 15, difficulty: 1, matchedIngredients: ['豆腐'], missingIngredients: ['酱油'], coverEmoji: '🫘' },
+  { name: '清炒西兰花', minutes: 8, difficulty: 1, matchedIngredients: ['西兰花'], missingIngredients: [], coverEmoji: '🥦' },
+  { name: '麻婆豆腐', minutes: 15, difficulty: 2, matchedIngredients: ['豆腐', '肉末'], missingIngredients: ['豆瓣酱'], coverEmoji: '🌶️' },
+  { name: '凉拌黄瓜', minutes: 5, difficulty: 1, matchedIngredients: ['黄瓜'], missingIngredients: ['醋', '蒜'], coverEmoji: '🥒' },
+  { name: '糖醋排骨', minutes: 30, difficulty: 2, matchedIngredients: ['排骨'], missingIngredients: ['糖', '醋'], coverEmoji: '🍖' },
+  { name: '葱爆羊肉', minutes: 15, difficulty: 2, matchedIngredients: ['羊肉', '葱'], missingIngredients: [], coverEmoji: '🥩' },
 ];
 
 const getFallbackRecommendations = (ingredients) => {
@@ -221,6 +230,36 @@ const FALLBACK_RECIPE_STEPS = {
       { title: '出锅', description: '用锅铲轻轻铲起，盛盘。可以搭配面包或米饭。', timer: 0 },
     ],
     tips: '低温慢煎蛋更嫩。喜欢吃溏心蛋就不要翻面，蛋白凝固即可出锅。',
+  },
+  '蛋炒饭': {
+    name: '蛋炒饭', minutes: 10, difficulty: 1, coverEmoji: '🍚',
+    steps: [
+      { title: '备料', description: '隔夜米饭拨散，鸡蛋打散，葱切葱花。', timer: 0 },
+      { title: '炒蛋', description: '热锅倒油，倒入蛋液炒散盛出。', timer: 60 },
+      { title: '炒饭', description: '锅中加油，倒入米饭大火翻炒，让每粒米都裹上油。', timer: 180 },
+      { title: '合炒调味', description: '倒入炒好的鸡蛋，加盐、少许酱油翻炒，撒葱花出锅。', timer: 60 },
+    ],
+    tips: '蛋炒饭用隔夜饭最好，米粒干爽不粘连。大火快炒是关键。',
+  },
+  '可乐鸡翅': {
+    name: '可乐鸡翅', minutes: 25, difficulty: 2, coverEmoji: '🍗',
+    steps: [
+      { title: '备料', description: '鸡翅洗净划两刀便于入味，姜切片。', timer: 0 },
+      { title: '煎鸡翅', description: '平底锅少许油，鸡翅两面煎至金黄。', timer: 180 },
+      { title: '加可乐炖', description: '倒入可乐没过鸡翅，加生抽、姜片，中火炖 15 分钟。', timer: 900 },
+      { title: '收汁', description: '大火收汁至浓稠，翻动鸡翅避免粘锅。', timer: 120 },
+    ],
+    tips: '可乐鸡翅的甜度来自可乐本身，不需要额外加糖。收汁时注意火候，别烧糊。',
+  },
+  '醋溜土豆丝': {
+    name: '醋溜土豆丝', minutes: 12, difficulty: 1, coverEmoji: '🥔',
+    steps: [
+      { title: '备料', description: '土豆去皮切细丝，泡水去淀粉，沥干。干辣椒切段。', timer: 0 },
+      { title: '爆香', description: '热锅倒油，放入干辣椒和花椒爆香。', timer: 20 },
+      { title: '快炒', description: '倒入土豆丝大火快炒，沿锅边淋入醋。', timer: 180 },
+      { title: '调味出锅', description: '加盐翻炒均匀，土豆丝断生即可出锅，不要炒过头。', timer: 30 },
+    ],
+    tips: '土豆丝一定要泡水去淀粉，炒出来才脆爽。醋要沿锅边淋入，香味更浓。',
   },
 };
 

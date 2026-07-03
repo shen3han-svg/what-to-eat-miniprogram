@@ -1,4 +1,5 @@
 <!-- pages/index/index.wxml - 食材输入首页 -->
+<wxs src="../../utils/helpers.wxs" module="h" />
 <view class="page">
   <!-- 顶部标题区 -->
   <view class="header">
@@ -130,13 +131,13 @@
       <view wx:for="{{ filteredCategories }}" wx:key="name" class="category-section">
         <text class="category-name">{{ item.icon }} {{ item.name }}</text>
         <view class="category-grid">
-          <view class="grid-item {{ isSelected(subItem) ? 'grid-item-selected' : '' }}"
+          <view class="grid-item {{ h.isSelected(subItem, selectedIngredients) ? 'grid-item-selected' : '' }}"
                 wx:for="{{ item.items }}"
                 wx:key="*this"
                 wx:for-item="subItem"
                 bindtap="onToggleIngredient"
                 data-name="{{ subItem }}">
-            <text wx:if="{{ isSelected(subItem) }}" class="check-mark">✓</text>
+            <text wx:if="{{ h.showCheck(subItem, selectedIngredients) }}" class="check-mark">✓</text>
             <text>{{ subItem }}</text>
           </view>
         </view>

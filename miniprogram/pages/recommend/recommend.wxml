@@ -40,7 +40,7 @@
         <text class="recipe-name">{{ item.name }}</text>
         <view class="recipe-meta">
           <text class="meta-item">⏱ {{ item.minutes > 0 ? item.minutes + '分钟' : '时间待定' }}</text>
-          <text class="meta-item">{{ difficultyLabel(item.difficulty) }}</text>
+          <text class="meta-item">{{ item.difficultyLabel }}</text>
         </view>
         <!-- 食材匹配度 -->
         <view class="match-row">

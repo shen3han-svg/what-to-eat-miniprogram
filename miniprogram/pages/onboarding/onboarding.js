@@ -35,10 +35,6 @@ Page({
     this.setData({ 'prefs.flavor': list });
   },
 
-  isFlavorSelected(f) {
-    return this.data.prefs.flavor.includes(f);
-  },
-
   onSave() {
     app.savePreferences(this.data.prefs);
     wx.showToast({ title: '已保存', icon: 'success' });

@@ -23,12 +23,6 @@ Page({
       recentIngredients: getRecentIngredients().slice(0, 12),
     });
     this._updatePrefLabel();
-    // 初始化云开发（仅首次）
-    if (!wx.cloud) {
-      console.warn('当前微信版本不支持云开发，请升级微信');
-    } else {
-      wx.cloud.init({ env: 'your-env-id', traceUser: true }); // TODO: 替换 env id
-    }
   },
 
   onShow() {
@@ -140,10 +134,6 @@ Page({
     } else {
       this.setData({ selectedIngredients: [...list, { name, fromCamera: false }] });
     }
-  },
-
-  isSelected(name) {
-    return this.data.selectedIngredients.some((i) => i.name === name);
   },
 
   removeIngredient(e) {

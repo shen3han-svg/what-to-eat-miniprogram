@@ -1,5 +1,6 @@
 // pages/recommend/recommend.js - 推荐结果页逻辑
 const { refreshRecommendations, getRecipeDetail, getFallbackRecommendations } = require('../../services/llm');
+const DIFFICULTY_MAP = { 0: '', 1: '⭐ 简单', 2: '⭐⭐ 中等', 3: '⭐⭐⭐ 复杂' };
 
 const app = getApp();
 
@@ -17,8 +18,12 @@ Page({
     const eventChannel = this.getOpenerEventChannel();
     eventChannel.on('recipesReady', ({ recipes, ingredients }) => {
       const names = ingredients.map((i) => i.name);
+      const labeledRecipes = recipes.map((r) => ({
+        ...r,
+        difficultyLabel: DIFFICULTY_MAP[r.difficulty] || '',
+      }));
       this.setData({
-        recipes,
+        recipes: labeledRecipes,
         loading: false,
         ingredients,
         ingredientSummary: names.join('、'),
@@ -66,11 +71,19 @@ Page({
 
     try {
       const newRecipes = await refreshRecommendations(ingredientNames, prefs, excludeNames);
-      this.setData({ recipes: newRecipes, refreshing: false });
+      const labeledRecipes = newRecipes.map((r) => ({
+        ...r,
+        difficultyLabel: DIFFICULTY_MAP[r.difficulty] || '',
+      }));
+      this.setData({ recipes: labeledRecipes, refreshing: false });
     } catch (e) {
       console.warn('[recommend] refresh failed', e);
       const fallback = getFallbackRecommendations(ingredientNames);
-      this.setData({ recipes: fallback, refreshing: false });
+      const labeledFallback = fallback.map((r) => ({
+        ...r,
+        difficultyLabel: DIFFICULTY_MAP[r.difficulty] || '',
+      }));
+      this.setData({ recipes: labeledFallback, refreshing: false });
       wx.showToast({ title: '网络慢，用了备用方案', icon: 'none' });
     }
   },
@@ -78,12 +91,6 @@ Page({
   // ── 返回添加食材 ──────────────────────────────────
   onBack() {
     wx.navigateBack();
-  },
-
-  // ── WXS 辅助函数（在 WXML 中使用）──────────────────
-  difficultyLabel(d) {
-    const map = { 0: '', 1: '⭐ 简单', 2: '⭐⭐ 中等', 3: '⭐⭐⭐ 复杂' };
-    return map[d] || '';
   },
 
   // ── 分享 ──────────────────────────────────────────
